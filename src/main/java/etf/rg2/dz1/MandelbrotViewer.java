@@ -1,4 +1,4 @@
-package org.example;// MandelbrotViewer.java
+package etf.rg2.dz1;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.glfw.GLFWVidMode;
 import org.lwjgl.opengl.*;
