@@ -1,0 +1,62 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'com.mydomain.graphics'
+version = '1.0-SNAPSHOT'
+
+application {
+    mainClass = 'com.example.MandelbrotViewer'
+}
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    lwjglVersion = '3.3.1'
+    lwjglNatives = [
+            windows: "natives-windows",
+            linux  : "natives-linux",
+            mac    : "natives-macos"
+    ]
+}
+
+dependencies {
+    // Core LWJGL moduli
+    implementation "org.lwjgl:lwjgl:${lwjglVersion}"
+    implementation "org.lwjgl:lwjgl-glfw:${lwjglVersion}"
+    implementation "org.lwjgl:lwjgl-opengl:${lwjglVersion}"
+    // (po potrebi dodaj i lwjgl-stb, lwjgl-assimp…)
+
+    // Native biblioteke za tvoj OS, IntelliJ će učitati odgovarajuće
+    runtimeOnly "org.lwjgl:lwjgl:${lwjglVersion}:${lwjglNatives.windows}"
+    runtimeOnly "org.lwjgl:lwjgl-glfw:${lwjglVersion}:${lwjglNatives.windows}"
+    runtimeOnly "org.lwjgl:lwjgl-opengl:${lwjglVersion}:${lwjglNatives.windows}"
+    runtimeOnly "org.lwjgl:lwjgl:${lwjglVersion}:${lwjglNatives.linux}"
+    runtimeOnly "org.lwjgl:lwjgl-glfw:${lwjglVersion}:${lwjglNatives.linux}"
+    runtimeOnly "org.lwjgl:lwjgl-opengl:${lwjglVersion}:${lwjglNatives.linux}"
+    runtimeOnly "org.lwjgl:lwjgl:${lwjglVersion}:${lwjglNatives.mac}"
+    runtimeOnly "org.lwjgl:lwjgl-glfw:${lwjglVersion}:${lwjglNatives.mac}"
+    runtimeOnly "org.lwjgl:lwjgl-opengl:${lwjglVersion}:${lwjglNatives.mac}"
+}
+
+// Opcionalno: postavi Java verziju
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+// Da bismo pisali GLSL fajlove u resources/ i učitavali ih
+sourceSets {
+    main {
+        resources {
+            srcDirs 'src/main/resources'
+        }
+    }
+}
